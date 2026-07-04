@@ -3043,7 +3043,7 @@ u8 dMenu_Fmap_c::getHowlRegionID() {
 }
 
 bool dMenu_Fmap_c::isLightVesselGet() {
-    return dComIfGp_isLightDropMapVisible();
+    return (bool)dComIfGp_isLightDropMapVisible();
 }
 
 cXyz* dMenu_Fmap_c::getPlayerPos2D() {

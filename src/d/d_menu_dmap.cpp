@@ -454,8 +454,8 @@ void dMenu_DmapBg_c::setCButtonString(u32 i_msgNo) {
             }
             mpCButton->setAlphaRate(0.5f);
         } else {
-          for (i = 0; i < 0xA; i++) {
-              dMeter2Info_getStringKanji(0x56a, ((J2DTextBox*)mButtonScreen->search(c_tag[i]))->getStringPtr(), NULL);
+          for (i = 0; i < 0x2; i++) {
+              dMeter2Info_getStringKanji(msgNo, ((J2DTextBox*)mButtonScreen->search(c_tag[i]))->getStringPtr(), NULL);
           }
           mpCButton->setAlphaRate(1.0f);
         }

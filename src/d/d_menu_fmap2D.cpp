@@ -1486,7 +1486,11 @@ void dMenu_Fmap2DBack_c::regionTextureDraw() {
             mpAreaTex[uVar10]->setAlpha(mAlphaRate * 255.0f * fVar3 * field_0xfa4);
 
             if (uVar10 != uVar9) {
+                #if PLATFORM_WII
                 bool b = true;
+                #else
+                bool b = false;
+                #endif
                 f32 v = mTransX + (dVar14 + (mRegionMinMapX[uVar10] + field_0xf0c[uVar10]));
                 #if PLATFORM_WII
                     v = getMirrorPosX(v, (mZoom * mRegionMapSizeX[uVar10]) * 0.5f);
@@ -1496,7 +1500,11 @@ void dMenu_Fmap2DBack_c::regionTextureDraw() {
                     mRegionMapSizeX[uVar10] * mZoom, mRegionMapSizeY[uVar10] * mZoom, b, false,
                     false);
             } else {
+                #if PLATFORM_WII
                 bool b = true;
+                #else
+                bool b = false;
+                #endif
                 f32 v = mTransX + (dVar14 + (mRegionMinMapX[uVar9] + field_0xf0c[uVar9]));
                 #if PLATFORM_WII
                     v = getMirrorPosX(v, (mZoom * mRegionMapSizeX[uVar10]) * 0.5f);
