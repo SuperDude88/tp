@@ -1379,6 +1379,7 @@ void dMenu_Fmap_c::spot_map_proc() {
         mpDraw2DBack->stageMapMove(mpStick, 1, true);
 
         f32 pos_x, pos_y;
+        #if PLATFORM_WII
         if(dComIfGs_getOptPointer()) {
             Vec2& pos = mReCPd::getDpd2DPos(0);
             pos_x = mpDraw2DBack->getMirrorPosX(pos.x, 0.0f) - mDoGph_gInf_c::getMinXF()
@@ -1390,6 +1391,11 @@ void dMenu_Fmap_c::spot_map_proc() {
                                                                     - mDoGph_gInf_c::getWidthF() * 0.5f;
             pos_y = mpDraw2DBack->getMapAreaGlobalCenterPosY() - mDoGph_gInf_c::getHeightF() * 0.5f;
         }
+        #else
+            pos_x = mpDraw2DBack->getMapAreaGlobalCenterPosX() - mDoGph_gInf_c::getMinXF()
+                                                                    - mDoGph_gInf_c::getWidthF() * 0.5f;
+            pos_y = mpDraw2DBack->getMapAreaGlobalCenterPosY() - mDoGph_gInf_c::getHeightF() * 0.5f;
+        #endif
         int stage_no, room_no;
         mpMenuFmapMap->getPointStagePathInnerNo(getNowFmapRegionData(), pos_x, pos_y,
                                                 mStayStageNo, &stage_no, &room_no);
