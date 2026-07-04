@@ -1013,7 +1013,6 @@ void dMenu_Fmap_c::region_map_proc() {
         mpDraw2DBack->regionMapMove(mpStick);
         int stage_no, room_no;
         #if PLATFORM_WII
-        // TODO: this is wrong?
             f32 pos_x;
             f32 pos_y;
             if(dComIfGs_getOptPointer()) {
@@ -1382,10 +1381,8 @@ void dMenu_Fmap_c::spot_map_proc() {
         f32 pos_x, pos_y;
         if(dComIfGs_getOptPointer()) {
             Vec2& pos = mReCPd::getDpd2DPos(0);
-
-            //TODO: this is all wrong
-            pos_x = mpDraw2DBack->getMirrorPosX(pos.x, 0.0f);
-            pos_x = pos_x - mDoGph_gInf_c::getMinXF() - mDoGph_gInf_c::getWidthF();
+            pos_x = mpDraw2DBack->getMirrorPosX(pos.x, 0.0f) - mDoGph_gInf_c::getMinXF()
+                                                        - mDoGph_gInf_c::getWidthF() * 0.5f;
             pos_y = pos.y - mDoGph_gInf_c::getHeightF() * 0.5f;
         }
         else {
