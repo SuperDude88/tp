@@ -2163,8 +2163,19 @@ void dMenu_Fmap2DBack_c::stageMapMove(STControl* i_stick, u8 param_1, bool param
         f32 speed = base_speed / 100.0f * local_78;
         f32 speed_x = speed * cM_ssin(angle);
         f32 speed_z = speed * cM_scos(angle);
+        #if PLATFORM_WII
+        if(dComIfGs_getOptPointer()) {
+            mStageTransX += speed_x;
+            mStageTransZ -= speed_z;
+        }
+        else {
+            mStageTransX -= speed_x;
+            mStageTransZ += speed_z;
+        }
+        #else
         mStageTransX += speed_x;
         mStageTransZ += speed_z;
+        #endif
     } else if (!param_2) {
         return;
     }
