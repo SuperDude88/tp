@@ -411,11 +411,16 @@ void dMenuMapCommon_c::drawIcon(f32 i_posX, f32 i_posY, f32 param_3, f32 param_4
                 }
 
                 f32 pos_x = i_posX + (icon_pos_x - (icon_size_x / 2));
+                bool r4 = false;
                 #if PLATFORM_WII
                     pos_x = getMirrorCenterPosX(pos_x, icon_size_x / 2);
+
+                    if(mIconInfo[info_idx].icon_no == ICON_GOLD_WOLF_e) {
+                        r4 = true;
+                    }
                 #endif
                 mPictures[mIconInfo[info_idx].icon_no]->draw(pos_x, (i_posY + (icon_pos_y - icon_size_y / 2)),
-                                                             icon_size_x, icon_size_y, false, false, false);
+                                                             icon_size_x, icon_size_y, r4, false, false);
 
                 if (mIconInfo[info_idx].icon_no == ICON_LIGHT_DROP_e) {
                     mLightDropPic->draw((pos_x + (icon_size_x / 2)) - (var_f29 / 2),

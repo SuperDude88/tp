@@ -1030,15 +1030,26 @@ void dMenu_DmapBg_c::draw() {
 
         f32 local_28c = mpBackTexture->getBounds().i.x;
 
+        bool r4 = false;
         #if PLATFORM_WII
         {
+            r4 = true;
+
+            mMapScreen[0]->search(MULTI_CHAR('center_n'));
+            mMapScreen[0]->search(MULTI_CHAR('center_n'));
+
+            // should be local_e8 but no idea what would be there on stack
+            // matches the rest of the instructions though, so probably some typo originally?
+            BOOL b = (BOOL)&local_200;
+
             CPaneMgr mgr;
-            mgr.getGlobalVtxCenter(mMapPane, false, 0);
+            Vec local_94 = mgr.getGlobalVtxCenter(mMapPane, b, 0);
+            local_28c = (local_94.x * 2.0f) - (local_28c + 0.5f * mpBackTexture->getWidth()) - 0.5f * mpBackTexture->getWidth();
         #endif
 
         mpBackTexture->setBlackWhite(color_black, color_white);
         mpBackTexture->draw(local_28c, field_0xd94 + mpBackTexture->getBounds().i.y, mpBackTexture->getWidth(),
-                            mpBackTexture->getHeight(), false, false, false);
+                            mpBackTexture->getHeight(), r4, false, false);
 
         #if PLATFORM_WII
         }
@@ -1928,6 +1939,63 @@ void dMenu_Dmap_c::_move() {
     if (field_0x17e == 0) {
         mpDrawBg->dpdMove(mFloorAll, mBottomFloor, field_0x172, field_0x174, field_0x181);
 
+        #if PLATFORM_WII
+        if(dComIfGs_getOptPointer() && m_process != 4 && mpDrawBg->mpItemExplain == NULL) {
+            if(m_process == 0) {
+                if(field_0x174[field_0x177]) {
+                    mpDrawBg->setAButtonString(0x5D);
+                    mpDrawBg->setBButtonString(0x3F9);
+                }
+                else {
+                    mpDrawBg->setAButtonString(0);
+                    mpDrawBg->setBButtonString(0x3F9);
+                }
+            }
+            else if(m_process == 1) {
+                if(field_0x181) {
+                    if(mZoomState) {
+                        if(mpDrawBg->field_0xdd3 != 0xFF) {
+                            mpDrawBg->setAButtonString(0x536);
+                        }
+                        else {
+                            mpDrawBg->setAButtonString(0);
+                        }
+
+                        mpDrawBg->setBButtonString(0x522);
+                    }
+                    else {
+                        if(mpDrawBg->field_0xdd3 != 0xFF) {
+                            mpDrawBg->setAButtonString(0x527);
+                        }
+                        else {
+                            mpDrawBg->setAButtonString(0);
+                        }
+
+                        mpDrawBg->setBButtonString(0x3F9);
+                    }
+                }
+                else if(mpDrawBg->field_0xdd3 != 0xFF) {
+                    if(mZoomState) {
+                        mpDrawBg->setAButtonString(0x536);
+                        mpDrawBg->setBButtonString(0x522);
+                    }
+                    else {
+                        mpDrawBg->setAButtonString(0x527);
+                        mpDrawBg->setBButtonString(0x3F9);
+                    }
+                }
+                else {
+                    mpDrawBg->setAButtonString(0);
+                    mpDrawBg->setBButtonString(0x3F9);
+                }
+            }
+            else {
+                mpDrawBg->setAButtonString(0);
+                mpDrawBg->setBButtonString(0x3F9);
+            }
+        }
+        #endif
+
         if (mpDrawBg->mpBlack != NULL) {
             f32 var_f31;
             if (mpDrawBg->field_0xdd3 != 0xFF) {
@@ -2011,7 +2079,11 @@ void dMenu_Dmap_c::mapControl() {
         f32 sp18 = temp_f28 * cM_ssin(stick_angle);
         f32 sp14 = temp_f28 * cM_scos(stick_angle);
         mMapCtrl->setPlusZoomCenterX(sp18);
+        #if PLATFORM_WII
+        mMapCtrl->setPlusZoomCenterZ(-sp14);
+        #else
         mMapCtrl->setPlusZoomCenterZ(sp14);
+        #endif
     }
 
     mMapCtrl->move();
